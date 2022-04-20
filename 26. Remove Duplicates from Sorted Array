@@ -1,0 +1,71 @@
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+
+Return k after placing the final result in the first k slots of nums.
+
+Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int[] expectedNums = [...]; // The expected answer with correct length
+
+int k = removeDuplicates(nums); // Calls your implementation
+
+assert k == expectedNums.length;
+for (int i = 0; i < k; i++) {
+    assert nums[i] == expectedNums[i];
+}
+If all assertions pass, then your solution will be accepted.
+
+
+
+first:
+class Solution {
+    public int removeDuplicates(int[] nums) {
+       int k = nums.length;
+       for (int i = 0;i<k-1;i++){
+           if(nums[i]==nums[i+1]){
+               for(int j = i+1;j<k-1;j++){
+                   nums[j]=nums[j+1];
+               }
+               k=k-1;
+               i=i-1;
+           }
+       }
+       return k;
+}
+}
+401 ms	48.2 MB
+
+advanced:
+class Solution 
+{
+    public int removeDuplicates(int[] nums)
+      {
+       int m = nums.length;
+       int k = 1;
+       int n = 1;
+       for (int i = 0;i+n<m;i++)
+       {
+           while(nums[i]==nums[i+n])
+           {
+               if(i+n+1==m)break;
+               n = n+1;
+           }
+           if(nums[i]!=nums[i+n])
+           {  nums[i+1] = nums[i+n];
+           k = k+1;
+           }
+       }   
+       return k;
+       }
+}
+Runtime: 1 ms, faster than 85.98% of Java online submissions for Remove Duplicates from Sorted Array.
+Memory Usage: 43.7 MB, less than 92.85% of Java online submissions for Remove Duplicates from Sorted Array.
+
+1.不使用其他数组节省内存
+2.尽可能减少遍历数组的次数
