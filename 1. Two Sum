@@ -1,0 +1,40 @@
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+wrong answer:
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+        int[] m = nums; 
+        int k = 0;
+        int p = 0;
+        int q = 0;
+        for (int i = 0; i < n; i++)
+            {
+             if(nums[i]<=target)
+                 {
+                  m[k] = i;
+                  k = k+1;
+                 }
+            }
+        boolean niemamadi= false ;
+        for (int i = 0; i<k && !niemamadi; i++)
+            {
+            for(int j =i+1; j<k; j++)
+                {
+                p = m[i];
+                q = m[j];
+                if(nums[p]+nums[q] == target) 
+                    niemamadi = true;
+                    break;
+                }
+            }
+        return new int[] {p,q};
+    }
+}
+
+advanced:
