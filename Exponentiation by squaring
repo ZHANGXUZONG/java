@@ -1,0 +1,27 @@
+package Exponentiation;
+
+import java.util.Scanner;
+
+public class nanami
+{
+    public static void main(String args[])
+    {
+        int res = 1;
+        Scanner sc = new Scanner(System.in);
+        int base = sc.nextInt();
+        int sqr = sc.nextInt();
+        while (sqr != 0)
+        {
+            if((sqr&1) == 1)
+            {
+                res = res*base;
+            }
+            base = base*base;
+            sqr = sqr >>1;
+        }
+        System.out.println(res);
+    }
+    
+}
+
+
