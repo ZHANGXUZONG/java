@@ -38,3 +38,28 @@ class Solution {
 }
 
 advanced:
+
+class Solution {
+    public int[] twoSum(int[] nums, int target)
+    {
+        int k = nums.length;
+        int temp[] =new int[k]; //这里大小是多少？
+        temp[0]=nums[0];
+        int p = 0;
+        int q = 0;
+        for(int i=1;i<k;i++)
+        {
+            for(int j =0;j<i;j++)
+            {
+                if((nums[i]+temp[j])==target)
+                {
+                    p = j;
+                    q = i;
+                    break;
+                }
+            }
+            temp[i]=nums[i];
+        }
+        return new int[]{p,q};
+    }
+}
