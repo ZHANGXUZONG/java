@@ -1,0 +1,25 @@
+输入一个浮点数，输出这个浮点数的绝对值。
+
+输入
+输入一个浮点数，其绝对值不超过10000。
+输出
+输出这个浮点数的绝对值，保留到小数点后两位。
+
+
+
+
+
+import java.util.Scanner;
+
+public class Main
+{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        double x = sc.nextDouble();
+        if(x<0)x=-x;  //Math.abs(x)
+        System.out.printf("%.2f",x);
+
+    }
+    
+}
