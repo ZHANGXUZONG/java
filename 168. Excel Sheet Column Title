@@ -1,0 +1,54 @@
+Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+For example:
+
+A -> 1
+B -> 2
+C -> 3
+...
+Z -> 26
+AA -> 27
+AB -> 28 
+...
+ 
+
+Example 1:
+
+Input: columnNumber = 1
+Output: "A"
+Example 2:
+
+Input: columnNumber = 28
+Output: "AB"
+Example 3:
+
+Input: columnNumber = 701
+Output: "ZY"
+ 
+
+Constraints:
+
+1 <= columnNumber <= 231 - 1
+Accepted
+338,058
+Submissions
+978,642
+
+
+
+class Solution {
+    public String convertToTitle(int columnNumber) {
+        int temp = columnNumber;
+        int yushu = 0;
+        String s = "";
+        while(temp!=0)
+        {
+            temp=temp-1;   //把题目换成26进制
+            yushu = temp%26;
+            temp = temp/26;
+            int t = yushu+(int)'A';
+            s =(char)t+""+s;  //ASCII码转字符
+        }
+        return s;      
+}
+}
