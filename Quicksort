@@ -1,0 +1,54 @@
+public static void quickSort(int[] numbers, int start, int end) {
+        if (start < end) {
+            int base = numbers[start]; // 选定的基准值（第一个数值作为基准值）
+            int temp; // 记录临时中间值
+            int i = start, j = end;
+            do {
+                while ((numbers[i] < base) && (i <= end))
+                    i++;
+                while ((numbers[j] > base) && (j >= start))
+                    j--;
+                if (i < j) {
+                    temp = numbers[i];
+                    numbers[i] = numbers[j];
+                    numbers[j] = temp;
+                }
+            } while (i < j);
+			      i++;
+            j--;
+            if (start < j)
+                quickSort(numbers, start, j);
+            if (end > i)
+                quickSort(numbers, i, end);
+        }
+    }
+
+
+快速排序该算法不能应用于有重复元素的数组。
+
+public static void quickSort(int[] numbers, int start, int end) {
+        if (start < end) {
+            int base = numbers[start]; // 选定的基准值（第一个数值作为基准值）
+            int temp; // 记录临时中间值
+            int i = start, j = end;
+            do {
+                while ((numbers[i] < base) && (i < end))
+                    i++;
+                while ((numbers[j] > base) && (j > start))
+                    j--;
+                if (i <= j) {
+                    temp = numbers[i];
+                    numbers[i] = numbers[j];
+                    numbers[j] = temp;
+                    i++;
+                    j--;
+                }
+            } while (i <= j);
+            if (start < j)
+                quickSort(numbers, start, j);
+            if (end > i)
+                quickSort(numbers, i, end);
+        }
+    }
+    
+    可以用来排序重复数组，但是不是纯真的快速排序，因为不是每次都能完美分开基准两边
