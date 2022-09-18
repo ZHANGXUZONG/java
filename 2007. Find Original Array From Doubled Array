@@ -39,7 +39,7 @@ Seen this question in a real interview before?
 class Solution {
     public int[] findOriginalArray(int[] changed) {
         Arrays.sort(changed);
-        int l = changed.length;
+        int l = changed.length;  //l尽量用len
         if(changed.length%2==1||changed.length==0)return new int[] {};
         else
         {
@@ -59,14 +59,14 @@ class Solution {
 
             for(int i=0;i<l;i++)
             {
-                int chun = changed[i]<<1;
+                int chun = changed[i]<<1;  //重复出现的数据，用int定义一个常量，加快速度
                 if(hm.get(changed[i])>0)
                 {
                     if(hm.containsKey(chun)&&hm.get(chun)>0) //检查是否存在，可以直接当if条件
                     {
                         hm.put(chun,hm.get(chun) -1);
                         hm.put(changed[i], hm.get(changed[i])-1);
-                        ori[count++]=changed[i];
+                        ori[count++]=changed[i];    //不要把不同步骤分太开，容易加大工作量，ori后面再添加就很麻烦
                        
                     }    
                     else
