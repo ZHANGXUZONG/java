@@ -31,7 +31,28 @@ class Solution {
 			list.add(root.val);
 			inorderTraversal(root.right);
 		}
-		return list;     //错在了list上  ，回去问问宝
+		return list;     //错在了list上  ，这里因为用了回调，list重置了，只能多创建一个方法
     }
 }
+TRUE:
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+		List<Integer> list = new ArrayList<>();
+        cycle(root,list);
+		return list;
+	}
 
+	public void cycle(TreeNode root,List list)
+	{
+		if(root!=null){
+			cycle(root.left,list);
+			list.add(root.val);
+			cycle(root.right,list);
+		}
+	}
+}
+
+
+
+Morris Traversal不使用额外的栈来进行二叉树遍历的算法
+https://zhuanlan.zhihu.com/p/102285533
