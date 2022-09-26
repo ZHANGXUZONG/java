@@ -1,0 +1,37 @@
+二分树
+
+二分树由节点构成
+只有一个根节点
+用数组表示时从左到右从上到下
+
+问题：1.创建二分树节点Node类的时候，key是什么
+     2.问题中没有提到根节点
+     
+     /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if(root!=null){
+			inorderTraversal(root.left);
+            System.out.println(root.val);
+			list.add(root.val);
+			inorderTraversal(root.right);
+		}
+		return list;     //错在了list上  ，回去问问宝
+    }
+}
+
