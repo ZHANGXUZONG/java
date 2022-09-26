@@ -1,1 +1,90 @@
 Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+ before: 速度很慢
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> list=new ArrayList<>();
+        Tolist(list,head);
+        if(list==null)return true;//空集
+        int len = list.size();
+        int len1=len-1;
+        if(list.size()%2==1) //奇数也可以是回文
+        {
+            for(int i =0;i<len/2;i++)
+            {
+            if(list.get(i)!=list.get(len1-i))return false;
+            }
+        }
+        else
+        {    for(int i =list.size()/2;i<list.size();i++)
+            {
+                if(list.get(i)!=list.get(len1-i))return false;
+            }
+        }
+        return true;
+    }
+
+    public void Tolist(List list,ListNode head){ //Linkedlist→List
+        if(head!=null){
+            list.add(head.val);  //head.val
+            Tolist(list,head.next); //()不要
+        }
+    }
+}
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        
+        if(head == null || head.next == null) return true;
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        //find the mid
+        while(fast.next!=null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        slow.next = reverse(slow.next);
+        
+        slow = slow.next;
+        while(slow!=null){
+            if(head.val != slow.val) return false;
+            head = head.next;
+            slow = slow.next;
+        }
+        return true;
+        
+    }
+    public ListNode reverse(ListNode head){
+        ListNode pre = null;
+        ListNode next = null;
+        
+        while(head!=null){
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
+    }
+}
