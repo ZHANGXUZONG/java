@@ -45,3 +45,24 @@ class Solution1 {
 		
     }
 }
+
+advanced:
+
+Runtime: 2 ms, faster than 98.87% of Java online submissions for First Unique Character in a String.
+Memory Usage: 42.4 MB, less than 99.13% of Java online submissions for First Unique Character in a String.
+选择遍历26个字母并选择只出现了一次的，很巧妙
+
+class Solution {
+    public int firstUniqChar(String s) {
+	int res = 100000;
+	for(char r='a';r<='z';r++)
+	{
+		if(s.indexOf(r)!=-1 &&s.indexOf(r)==s.lastIndexOf(r))
+		{
+			res=Math.min(res, s.indexOf(r));
+		}
+	}
+	if(res!=100000)return res;
+	return -1;
+    }
+}
