@@ -1,0 +1,30 @@
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+
+Runtime: 1 ms, faster than 75.59% of Java online submissions for Remove Nth Node From End of List.
+Memory Usage: 42 MB, less than 65.93% of Java online submissions for Remove Nth Node From End of List.
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode rev1 = new ListNode();
+		ListNode rev2 = new ListNode();
+		ListNode temp = new ListNode();
+		if(head.next==null)return null; //debug
+		rev1=head;
+		for(int i = 0;i<=n;i++)
+		{
+			if(rev1==null)return head=head.next;
+			rev1 = rev1.next;
+		}
+		rev2 = head;
+		temp = head.next.next;
+		while(rev1!=null)
+		{
+			rev1 = rev1.next;
+			rev2 = rev2.next;
+			temp = temp.next;
+		}
+		rev2.next=temp;
+		return head;
+    }
+}
