@@ -1,1 +1,67 @@
 Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+/**超时严重
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+		TreeNode t1 =new TreeNode();
+		TreeNode t2 = new TreeNode();
+		t1=root.left;
+		t2=root.right;
+		if(!inorder(t1, t2)||t1.val!=t2.val)return false;
+		return true;
+	}
+
+
+	
+	public boolean inorder(TreeNode t1,TreeNode t2)
+	{
+		while(t1!=null||t2!=null){
+			inorder(t1.left, t2.right);
+			if(t1==null^t2==null)return false;
+			if(t1!=null&&t2!=null){
+				if(t1.val!=t2.val)return false;
+			}
+			inorder(t1.right, t2.left);
+			if(t2!=null&&t1!=null){
+				if(t2.val!=t1.val)return false;
+			}
+		}  //条件有点多
+		return true;
+	}
+}
+
+
+//还是需要锻炼思维，递归，每一个节点对应两个左右，只需要返回两个左右的结果就知道了
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+		TreeNode t1 =new TreeNode();
+		TreeNode t2 = new TreeNode();
+		if(root == null)return true;
+		t1=root.left;
+		t2=root.right;
+		return inorder(t1, t2);
+	}
+
+
+	
+	public boolean inorder(TreeNode t1,TreeNode t2)
+	{
+			if(t1==null&&t2==null)return true;
+			if(t1==null||t2==null||t1.val!=t2.val)return false;
+			 //条件有点多
+		return inorder(t1.left, t2.right)&&inorder(t1.right, t2.left);
+	}
+}
