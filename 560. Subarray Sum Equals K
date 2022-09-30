@@ -50,3 +50,38 @@ class Solution {
         return count;			
     }
 }
+
+
+
+
+
+
+
+//别人的： ：：的用法   ？
+class Solution {
+    
+    // 0 1 2 3 4 5 6
+    // 2 5 6 2 5 3 9
+    // [0:0] = 0
+    // [0:1] = 2
+    // [0:2] = 7
+    // [1:2] = 5
+    // [0:7] = 32
+    
+    // sum[i] - sum[j] = k, i > j
+    // sum[i] = k + sum[j]; i > j
+    
+    public int subarraySum(int[] nums, int k) {
+        int[] sum = new int[nums.length + 1];
+        for(int i = 0; i < nums.length; i++) {
+            sum[i + 1] = sum[i] + nums[i];
+        }
+        int amount = 0;
+        Map<Integer, Integer> mapSum = new HashMap<>();
+        for (int s : sum) {
+            amount += mapSum.getOrDefault(s, 0);
+            mapSum.merge(s + k, 1, Integer::sum);
+        }
+        return amount;
+    }
+}
