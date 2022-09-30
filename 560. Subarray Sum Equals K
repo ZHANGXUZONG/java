@@ -1,0 +1,52 @@
+Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,1], k = 2
+Output: 2
+Example 2:
+
+Input: nums = [1,2,3], k = 3
+Output: 2
+
+Runtime
+1845 ms
+Beats
+10.66%
+Memory
+54.5 MB
+Beats
+79.92%
+//内存还行，速度不够
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+		int prefix[]=new int[nums.length];
+		prefix[0]=nums[0];
+
+		for(int i=1;i<nums.length;i++)
+		{
+			prefix[i]=prefix[i-1]+nums[i];
+		}
+
+		int count = 0;
+		if(prefix[0]==k)count++;
+		for(int i=1;i<nums.length;i++)
+		{
+			int temp = i-1;
+			if(prefix[i]==k)count++;  //新增
+			while(temp>=0)       //Math.abs(prefix[i]-prefix[temp])<k有正负的话就不能这么简单判断了
+			{
+				if(prefix[i]-prefix[temp]==k)count++;     //if(prefix[i]-prefix[temp]==k||prefix[i]==k)count++; ；两种情况算两次
+				temp--;
+			}
+		}
+
+
+        return count;			
+    }
+}
