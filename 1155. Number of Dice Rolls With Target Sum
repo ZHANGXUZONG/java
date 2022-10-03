@@ -21,3 +21,38 @@ Example 3:
 Input: n = 30, k = 30, target = 500
 Output: 222616187
 Explanation: The answer must be returned modulo 109 + 7.
+
+
+//*用递归方法解决的话，递归骰子个数还是面数还是目标点数？骰子个数的话，从例子2来看组合的n倍？
+*例子1，n=2的话，结果就是1+2，2+1，n=3的话结果是1+1+1，并没有增加，感觉从n=target开始递归会好点?减少一个筛子就多N种组合？
+*例子2，n=7,1,n=6,6,n=5,5+4+3+2+1,n=4,16,n=3,
+
+class Solution12 {
+    public int numRollsToTarget(int n, int k, int target) {
+		int[][] d = new int[n+1][target+1];  //debug 多算一位
+		if(target <n)return 0;
+		int count = 1;
+		while(count*k<target){
+			count++;
+		}
+		if(count>n)return 0;
+		int temp1 = target-n;
+		for(int i = 1;i<=n;i++){
+			int temp=0;
+			for(int j =0;j<temp1+1;j++){
+				if(i==i+j)d[i][i+j]=1;     //debug  [i][j [i][i+j]
+				if(i*count==i+j)d[i][i+j]=1;
+				if(i==1)d[i][i+j]=1;
+				else{
+					for(int z=1;z<=j+1;z++){
+						temp=d[i-1][i+j-z]+temp;
+					}
+					d[i][i+j]=temp;
+				}
+		
+			}
+		}
+		return d[n][target];
+
+	}
+}
