@@ -1,0 +1,63 @@
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+ 
+
+Example 1:
+
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+Example 2:
+
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3
+ 
+ 
+ 
+class Solution14 {
+    public int numIslands(char[][] grid) {
+		int[][] parents=new int[grid.length][grid[0].length];   //1根2左3右4上5下
+		int z = 1;   //需要一个二维并查集，指向二维地址
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(parents[i][j]==0&&grid[i][j]=='1'){    //遍历grid，找相连的1
+					parents=union(grid, i, j, parents);
+					parents[i][j]=1;                         //对初始parent重置赋1
+				}
+			}
+		}
+
+		int count = 0;
+		for(int i=0;i<grid.length;i++){
+			for(int j=0;j<grid[0].length;j++){
+				if(parents[i][j]==1)count++;
+//				if(parents[i][j]==-1)count--;    //有1加一岛，有-1删除重复岛
+			}
+		
+		}
+		System.out.println(parents);
+		return count;
+}
+	
+	
+	public int[][] union(char[][] grid,int i,int j,int[][] parents){
+		if(grid[i][j]=='1'&&parents[i][j]!=2){
+			parents[i][j]=2;
+			if(i+1<grid.length)union(grid,i+1,j,parents);
+			if(j+1<grid[0].length)union(grid,i,j+1,parents);            //往右下开始找，找到就赋2
+		}
+		//else if(parents[i][j]==2)parents[i][j]=-1;         //debug,不能单纯减1会导致出错
+		return parents;
+	}
+}
