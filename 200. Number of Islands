@@ -25,39 +25,45 @@ Output: 3
  
  
  
+
 class Solution14 {
     public int numIslands(char[][] grid) {
-		int[][] parents=new int[grid.length][grid[0].length];   //1根2左3右4上5下
-		int z = 1;   //需要一个二维并查集，指向二维地址
+		int[][] parents1=new int[grid.length][grid[0].length];   
+		int[][] parents2=new int[grid.length][grid[0].length];
+		int[][][] parents={parents1,parents2};                               //需要一个二维并查集，指向二维地址
         for(int i=0;i<grid.length;i++){
             for(int j=0;j<grid[0].length;j++){
-                if(parents[i][j]==0&&grid[i][j]=='1'){    //遍历grid，找相连的1
-					parents=union(grid, i, j, parents);
-					parents[i][j]=1;                         //对初始parent重置赋1
+                if(parents[0][i][j]==0&&parents[1][i][j]==0&&grid[i][j]=='1'){    //遍历grid，找相连的1
+					parents=union(grid, i, j, parents,i,j);
 				}
 			}
 		}
 
 		int count = 0;
+		if(grid[0][0]=='0')count--;
 		for(int i=0;i<grid.length;i++){
 			for(int j=0;j<grid[0].length;j++){
-				if(parents[i][j]==1)count++;
-//				if(parents[i][j]==-1)count--;    //有1加一岛，有-1删除重复岛
+				if(parents[0][i][j]==i&&parents[1][i][j]==j)count++;              //如果指向自己就加1.特例0一直是0,count-1
+//				if(parents[i][j]==-1)count--;    
 			}
 		
 		}
-		System.out.println(parents);
 		return count;
 }
 	
 	
-	public int[][] union(char[][] grid,int i,int j,int[][] parents){
-		if(grid[i][j]=='1'&&parents[i][j]!=2){
-			parents[i][j]=2;
-			if(i+1<grid.length)union(grid,i+1,j,parents);
-			if(j+1<grid[0].length)union(grid,i,j+1,parents);            //往右下开始找，找到就赋2
+	public int[][][] union(char[][] grid,int i,int j,int[][][] parents,int p,int q){   //p,q为父节点，使右下方向所有连续1的指向父节点
+		if(grid[i][j]=='1'&&parents[0][i][j]==0&&parents[1][i][j]==0){
+			parents[0][i][j]=p;
+			parents[1][i][j]=q;
+			if(i+1<grid.length)union(grid,i+1,j,parents,p,q);
+			if(j+1<grid[0].length)union(grid,i,j+1,parents,p,q);           
 		}
-		//else if(parents[i][j]==2)parents[i][j]=-1;         //debug,不能单纯减1会导致出错
+		if(!(parents[0][i][j]==0&&parents[1][i][j]==0)&&!(parents[0][i][j]==p&&parents[1][i][j]==q)){  //如果发现跟其他相连了就改变父节点指向其他节点
+			parents[0][p][q]=parents[0][i][j];
+			parents[1][p][q]=parents[1][i][j];
+		}
+
 		return parents;
 	}
 }
