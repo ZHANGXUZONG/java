@@ -69,3 +69,47 @@ class Solution14 {
 	}
 }
 
+并查集正确版：
+class Solution {
+private int[] parents;    //这里就不需要二维
+	private int len;
+
+    public int numIslands(char[][] grid) {
+		parents=new int[grid.length*grid[0].length];                          //需要一个二维并查集，指向二维地址     m*i+j就行
+		for(int i = 0;i<grid.length;i++){
+			for(int j=0;j<grid[0].length;j++){
+				len = i*grid[0].length+j;
+                System.out.println(len);
+				if(grid[i][j]=='1'){
+					parents[len]=len;
+					if(i>0&&grid[i-1][j]=='1')union(len, len-grid[0].length);
+					if(j>0&&grid[i][j-1]=='1')union(len,len-1);
+				}
+				else parents[len]=-1;
+			}
+		}
+
+		int count=0;
+		for(int i=0;i<parents.length;i++){
+			if(parents[i]==i)count++;
+		}
+		return count;
+	}
+
+	public void union(int len1,int len2){
+		int p1=find(len1);
+		int p2=find(len2);
+		if(p1==p2){
+			return;
+		}
+		parents[p1]=p2;
+	}
+
+	public int find(int len3){
+        System.out.println(len3);
+		if(len3!=parents[len3]){
+			parents[len3]=find(parents[len3]);
+		}
+		return parents[len3];
+	}
+}
