@@ -22,12 +22,19 @@ Input: n = 30, k = 30, target = 500
 Output: 222616187
 Explanation: The answer must be returned modulo 109 + 7.
 
-
-//*用递归方法解决的话，递归骰子个数还是面数还是目标点数？骰子个数的话，从例子2来看组合的n倍？
 *例子1，n=2的话，结果就是1+2，2+1，n=3的话结果是1+1+1，并没有增加，感觉从n=target开始递归会好点?减少一个筛子就多N种组合？
 *例子2，n=7,1,n=6,6,n=5,5+4+3+2+1,n=4,16,n=3,
 
-class Solution12 {
+Runtime
+7 ms
+Beats
+98.26%
+Memory
+41.3 MB
+Beats
+85.5%
+
+class Solution {
     public int numRollsToTarget(int n, int k, int target) {
 		int[][] d = new int[n+1][target+1];  //debug 多算一位
 		if(target <n)return 0;
@@ -36,23 +43,24 @@ class Solution12 {
 			count++;
 		}
 		if(count>n)return 0;
-		int temp1 = target-n;
-		for(int i = 1;i<=n;i++){
-			int temp=0;
-			for(int j =0;j<temp1+1;j++){
-				if(i==i+j)d[i][i+j]=1;     //debug  [i][j [i][i+j]
-				if(i*count==i+j)d[i][i+j]=1;
-				if(i==1)d[i][i+j]=1;
+
+		for(int i=1;i<=k&&i<=target;i++){
+			d[1][i]=1;
+		}
+
+		for(int i = 2;i<=n;i++){     //n
+			for(int j =2;j<=target;j++){    //target
+				if(i*k==j)d[i][j]=1;
+				else if(i==j)d[i][j]=1;
 				else{
-					for(int z=1;z<=j+1;z++){
-						temp=d[i-1][i+j-z]+temp;
+					int temp=0;    //debug temp位置
+					for(int z=j-1;z>=j-k;z--){
+						if(z>=i-1&&k*(i-1)>=z){temp=d[i-1][z]+temp;temp=temp%1000000007;}  //debug到头疼发现是取模取得不对
 					}
-					d[i][i+j]=temp;
+					d[i][j]=temp;
 				}
-		
 			}
 		}
-		return d[n][target];
-
+		return d[n][target];//%1000000007
 	}
-}
+} 
