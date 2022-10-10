@@ -38,3 +38,19 @@ class Solution {
 		return count;
 	}
 }
+
+class Solution26 {
+	int count=0;
+	public int maxDepth(TreeNode root) {
+		depth(root,0);
+		return count;
+	}
+	public void depth(TreeNode root,int count1){
+		if(root==null){
+			count=Math.max(count,count1);
+		}
+		count1++;
+		depth(root.left,count1);
+		depth(root.right,count1);
+	}
+}
