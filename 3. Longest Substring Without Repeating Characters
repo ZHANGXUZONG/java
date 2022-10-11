@@ -31,3 +31,32 @@ class Solution {
 		return temp;
     }
 }
+
+map
+class Solution31 {
+	public  int lengthOfLongestSubstring(String s) {
+	if(s.length()==0)return 0;     //debug边界条件
+	int left=0;int right=0;int count =0;
+	int[] map =new int[256];
+	for(right=0;right<s.length();right++){
+		char c = s.charAt(right);
+		if(map[c]==1){
+			count=Math.max(count,right-left);
+			char d= s.charAt(left);
+			while(d!=c){
+				left=left+1;
+				map[d]--;
+				d= s.charAt(left);
+				}  //debug
+			left=left+1;
+			map[c]--;
+		}
+		count=Math.max(count,right-left);
+		System.out.println("left"+left);
+		System.out.println("right"+right);
+		map[c]=map[c]+1;
+	}
+	count=Math.max(count,right-left);
+	return 	count;
+}
+}
