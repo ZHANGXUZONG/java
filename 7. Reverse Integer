@@ -42,3 +42,16 @@ class Solution {
 		return Integer.parseInt(temp1);
 	}
 }
+                    
+class Solution {
+	public int reverse(int x) {
+		long y = 0;       
+ 		while(x!=0){
+			y=y*10+x%10;
+			x=x/10;                  //直接除  ，为什么不用管负号？  java取模出来是-10 % 3 = -1 的计算结果如下：r = -10 - (-10 / 3) * 3 = -10 - (-3 * 3) = -1。
+			                         //计算器是- (-10 / 3) * 3   ，java的是不用管负号的
+		}
+		if(y>Integer.MAX_VALUE||y<Integer.MIN_VALUE)return 0;   //integer自带的最值
+		return (int)y;
+	}
+}
