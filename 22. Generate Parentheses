@@ -1,0 +1,49 @@
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+ 
+
+Example 1:
+
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+Example 2:
+
+Input: n = 1
+Output: ["()"]
+ 
+
+Constraints:
+
+1 <= n <= 8
+
+用动态规划和回溯法，动态规划没有在这种不是数组的上面用过，回溯法没有用过
+
+这道题动态规划如果用数组表示怎么表示？
+
+思路1：保留上一个链表，依次对链表元素进行处理，发现没出现过的就加入新链表，新链表又处理
+思路2：利用括号的规则直接生成？感觉是存在简单办法的，回溯法的代码实现也有点迷糊
+
+思路1：
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list1= new ArrayList<>();
+		List<String> list2= new ArrayList<>();
+		list1.add("()");
+		String temp="";
+		for(int i=1;i<n;i++){
+			for(int j=0;j<list1.size();j++){
+				temp="("+list1.get(j)+")";
+				if(!list2.contains(temp))list2.add(temp);
+				temp="()"+list1.get(j);
+				if(!list2.contains(temp))list2.add(temp);
+				temp=list1.get(j)+"()";
+				if(!list2.contains(temp))list2.add(temp);
+			}
+			list1=new ArrayList<>(list2);
+			list2.clear();
+		}
+		return list1;		
+    }
+}
+
+从第四个开始出错，找不到原因
