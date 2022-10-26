@@ -46,4 +46,20 @@ class Solution {
     }
 }
 
-从第四个开始出错，找不到原因
+从第四个开始出错，(())(())这个解决不掉
+
+
+递归:  括号没想的那么容易出错，只要右括号数量一直不大于左括号就可以一直递归。
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list= new ArrayList<>();
+		recurse(list, n,"",0,0);
+		return list;
+    }
+
+	public void recurse(List<String> list,int n,String s,int left,int right){
+		if(left+right==2*n)list.add(s);   
+		if(left<n)recurse(list, n, s+"(", left+1, right);
+		if(right<left)recurse(list, n, s+")", left, right+1);
+	}
+}
