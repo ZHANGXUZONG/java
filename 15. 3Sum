@@ -32,7 +32,7 @@ class Solution {
 				temp=nums[i]+nums[left];
 				if(temp+nums[right]>0){
 					right--;
-					while(left<right&&nums[right]==nums[right+1])right--;
+					while(left<right&&nums[right]==nums[right+1])right--;//这句删掉就完美
 				}
 				else if(temp+nums[right]<0){
 					left++;
