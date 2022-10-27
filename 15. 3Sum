@@ -10,3 +10,46 @@ nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
 nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
 The distinct triplets are [-1,0,1] and [-1,-1,2].
 Notice that the order of the output and the order of the triplets does not matter.
+
+首先全都遍历一边肯定是少不了的了
+O^2复杂度遍历建立二维数组然后找相等的
+
+看到标签排序和双指针就想到了，排序然后双指针往中间收
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+		List<List<Integer>> list2=new ArrayList<>();
+		Arrays.sort(nums);
+		int len=nums.length;
+		int left=0;
+		int right=len-1;
+		int temp;
+		for(int i=0;i<len;i++){
+			left=i+1;
+            right=len-1;
+			if(i>0&&nums[i]==nums[i-1])continue;
+			while(left<right){
+				temp=nums[i]+nums[left];
+				if(temp+nums[right]>0){
+					right--;
+					while(left<right&&nums[right]==nums[right+1])right--;
+				}
+				else if(temp+nums[right]<0){
+					left++;
+					while(left<right&&nums[left]==nums[left-1])left++;} 
+				else if(temp+nums[right]==0){
+					List<Integer> list1=new ArrayList<>();
+					list1.add(nums[i]);
+					list1.add(nums[left]);
+					list1.add(nums[right]);
+					list2.add(list1);
+					left++;
+					right--;
+					while(left<right&&nums[left]==nums[left-1])left++;
+					while(left<right&&nums[right]==nums[right+1])right--;
+				}
+			}
+		}
+		return list2;
+    }
+}
