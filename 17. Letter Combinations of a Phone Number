@@ -1,0 +1,84 @@
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+
+ 
+
+Example 1:
+
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+Example 2:
+
+Input: digits = ""
+Output: []
+Example 3:
+
+Input: digits = "2"
+Output: ["a","b","c"]
+
+这算什么，纯粹的遍历吗？我直接输入每个数字一个字符串，等一下难道能用到树？三叉树？ 
+哈希表，回溯...真的能用到回溯吗
+用递归试试
+
+速度很慢
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+		List<String> list=new ArrayList<>();
+        if(digits.length()==0)return list;
+        String[] nums=new String[10];
+		nums[2]="abc";
+		nums[3]="def";
+		nums[4]="ghi";
+		nums[5]="jkl";
+		nums[6]="mno";
+		nums[7]="pqrs";
+		nums[8]="tuv";
+		nums[9]="wxyz";
+		digirecurse(list, nums, digits, 0, "");
+		return list;
+    }
+	
+	public void digirecurse(List<String> list,String[] nums,String digits,int count,String str){
+		if(count<digits.length()){
+			int m = digits.charAt(count)-48;
+            System.out.println(m);
+			for(int i=0;i<nums[m].length();i++){
+				digirecurse(list, nums, digits, count+1, str+nums[m].charAt(i));
+			}
+		}
+		else{
+			list.add(str);
+		}
+
+	}
+}
+
+class Solution {
+	List<String> list=new ArrayList<>();//
+
+	char[][] num2chars = new char[][]{
+        {'a','b','c'}, {'d','e','f'},{'g','h','i'},{'j','k','l'},{'m','n','o'},
+        {'p','q','r','s'},{'t','u','v'},{'w','x','y','z'}
+    };
+
+    public List<String> letterCombinations(String digits) {
+		if(digits.length()==0)return list;
+		digirecurse(digits.toCharArray(), 0, new StringBuilder());
+		return list;
+    }
+	
+	public void digirecurse(char[] digits,int count,StringBuilder str){     //
+		if(count==digits.length)list.add(str.toString());
+		else{
+			char[] chars = num2chars[(int)(digits[count]-'0') - 2];
+			for(char c : chars){
+				digirecurse(digits, count+1, str.append(c));
+                str.deleteCharAt(str.length()-1);
+			}
+		}
+	}
+}
+StringBuilder居然比String快这么多
