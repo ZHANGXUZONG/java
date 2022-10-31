@@ -1,0 +1,42 @@
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+ 
+
+Example 1:
+
+Input: haystack = "sadbutsad", needle = "sad"
+Output: 0
+Explanation: "sad" occurs at index 0 and 6.
+The first occurrence is at index 0, so we return 0.
+Example 2:
+
+Input: haystack = "leetcode", needle = "leeto"
+Output: -1
+Explanation: "leeto" did not occur in "leetcode", so we return -1.
+
+用双指针解速度和内存都还好，但是总感觉有提升余地
+
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int left=0;
+		int len=needle.length();
+        if(len>haystack.length())return -1;
+		int right=len-1;
+		for(int i=0;i<=haystack.length()-len;i++){
+			int temp=left;
+			int tempn=0;
+			int tempnl=len-1;
+			while(haystack.charAt(left)==needle.charAt(tempn)&&haystack.charAt(right)==needle.charAt(tempnl)){
+				left++;
+				right--;
+				tempn++;
+				tempnl--;
+				if(!(left<=right))return temp;
+			}
+			left=temp+1;
+			right=left+len-1;
+		}
+		return -1;
+    }
+}
