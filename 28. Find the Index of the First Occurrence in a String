@@ -15,6 +15,7 @@ Output: -1
 Explanation: "leeto" did not occur in "leetcode", so we return -1.
 
 用双指针解速度和内存都还好，但是总感觉有提升余地
+写麻烦了，速度应该是一样的，现在应该算是4指针
 
 
 class Solution {
@@ -28,7 +29,7 @@ class Solution {
 			int tempn=0;
 			int tempnl=len-1;
 			while(haystack.charAt(left)==needle.charAt(tempn)&&haystack.charAt(right)==needle.charAt(tempnl)){
-				left++;
+				left++;//去掉右边那头，只剩左边速度应该是一样的
 				right--;
 				tempn++;
 				tempnl--;
