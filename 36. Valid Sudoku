@@ -1,0 +1,163 @@
+Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+Each row must contain the digits 1-9 without repetition.
+Each column must contain the digits 1-9 without repetition.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+Note:
+
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+Only the filled cells need to be validated according to the mentioned rules.
+ 
+
+Example 1:
+
+
+Input: board = 
+[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: true
+Example 2:
+
+Input: board = 
+[["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: false
+Explanation: Same as Example 1, except with the 5 in the top left corner being modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.
+
+
+class Solution47 {  //哈希表，或者我自己建一个？
+    public boolean isValidSudoku(char[][] board) {
+		for(int i=0;i<9;i++){
+			int[] hash=new int[10];
+			for(int j=0;j<9;j++){
+				if(board[i][j]!='.')hash[board[i][j]-'0']++;
+			}
+			for(int t=0;t<10;t++){
+				if(hash[t]>1)return false;
+			}
+		}
+		for(int i=0;i<9;i++){
+			int[] hash=new int[10];
+			for(int j=0;j<9;j++){
+				if(board[j][i]!='.')hash[board[j][i]-'0']++;
+			}
+			for(int t=0;t<10;t++){
+				if(hash[t]>1)return false;
+			}
+		}
+		int[] hash=new int[10];
+		for(int p=0;p<3;p++){
+			hash=new int[10];
+			for(int i=0;i<3;i++){
+				for(int j=0;j<3;j++){
+					if(board[j+3*p][i]!='.')hash[board[j+3*p][i]-'0']++;
+				}
+			}
+				for(int t=0;t<10;t++){
+					if(hash[t]>1)return false;
+				}
+			hash=new int[10];
+			for(int i=0;i<3;i++){
+				for(int j=0;j<3;j++){
+					if(board[j+3*p][i+3]!='.')hash[board[j+3*p][i+3]-'0']++;
+				}
+			}
+			for(int t=0;t<10;t++){
+				if(hash[t]>1)return false;
+			}
+			hash=new int[10];
+			for(int i=0;i<3;i++){
+				for(int j=0;j<3;j++){
+					if(board[j+3*p][i+6]!='.')hash[board[j+3*p][i+6]-'0']++;
+				}
+			}
+			for(int t=0;t<10;t++){
+				if(hash[t]>1)return false;
+			}
+		}
+		return true;
+    }
+}
+
+class Solution47 {
+    public boolean isValidSudoku(char[][] board) {
+        int[] row = new int[9], col = new int[9], area = new int[9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char c = board[i][j];
+                if (c == '.') continue;
+                int u = c - '0';
+                int idx = i / 3 * 3 + j / 3;
+                if ((((row[i] >> u) & 1) == 1) || (((col[j] >> u) & 1) == 1) || (((area[idx] >> u) & 1) == 1)) return false;
+                row[i] |= (1 << u);
+                col[j] |= (1 << u);
+                area[idx] |= (1 << u);
+            }
+        }
+        return true;
+    }
+}
+class Solution {
+    
+    public boolean isSafe(char board[][],int row,int col,int n){
+        
+        for(int d=0;d<n;d++){
+           if(d==row)continue;
+            if(board[d][col]==board[row][col])return false;
+        }
+        
+        for(int d=0;d<n;d++){
+           if(d==col)continue;
+            if(board[row][d]==board[row][col])return false;
+        }
+        
+        int s=(int)Math.sqrt(n);
+        int rs=row-row%s;
+        int cs=col-col%s;
+        
+        for(int i=0;i<s;i++){
+            for(int j=0;j<s;j++){
+                if(i+rs==row && j+cs==col)continue;
+                if(board[i+rs][j+cs]==board[row][col])return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean f(char board[][],int n){
+   
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]!='.'){
+                    if(isSafe(board,i,j,n)==false)return false;
+                    
+                }
+            }
+            
+        }
+        
+        
+        return true;
+        
+    }
+    
+    public boolean isValidSudoku(char[][] board) {
+        
+        
+        return f(board,board.length);
+    }
+}
