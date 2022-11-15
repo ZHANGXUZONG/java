@@ -28,6 +28,7 @@ class Solution49 {
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
 				if(hm.containsKey(nums3[i]+nums4[j]))hm.put(nums3[i]+nums4[j], hm.get(nums3[i]+nums4[j])+1);
+				//应该就是这句耗时太长了，map似乎比hashmap多一些方法用
 				else hm.put(nums3[i]+nums4[j],1);
 			}
 		}
@@ -43,3 +44,54 @@ class Solution49 {
     }
 }
 //有预料到速度会很慢，应该是O2但是没想到还有30%比我慢的（笑
+
+//别人的： 思路是一样的，自己写的哈希，感觉哈希表相关问题就是自己写>用对方法>最简单的put get
+class Solution {
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        int[] mm1 = maxAndMin(nums1);
+        int[] mm2 = maxAndMin(nums2);
+        int[] mm3 = maxAndMin(nums3);
+        int[] mm4 = maxAndMin(nums4);
+        int n = nums1.length - 1;
+        int ret = 0;
+        
+        int max = Math.max(mm1[1]+mm2[1], -mm3[0]-mm4[0]);
+        int min = Math.min(mm1[0]+mm2[0], -mm3[1]-mm4[1]);
+        
+        int[] map = new int[max-min+1];
+        
+        for (int i: nums1) for (int j: nums2) map[i+j-min]++;
+        for (int i: nums3) for (int j: nums4) ret += map[-i-j-min];
+        
+        return ret;
+    }
+    
+    private int[] maxAndMin(int[] nums) {
+        int max = nums[0];
+        int min = nums[0];
+        for (int i: nums) {
+            if (i > max) max = i;
+            if (i < min) min = i;
+        }
+        return new int[]{min, max};
+    }
+}
+//这个慢很多但还是比我的快了一倍getOrDefault
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        int cnt = 0;
+        Map<Integer, Integer> m = new HashMap<>();
+        for (int a : A) {
+            for (int b : B) {
+                m.put(a + b, m.getOrDefault(a + b, 0) + 1);
+            }
+        }
+        for (int c : C) {
+            for (int d : D) {
+                int sum =  0-c-d;
+                cnt += m.getOrDefault((sum), 0);
+            }
+        }
+        return cnt;
+    }
+}
