@@ -1,0 +1,62 @@
+The count-and-say sequence is a sequence of digit strings defined by the recursive formula:
+
+countAndSay(1) = "1"
+countAndSay(n) is the way you would "say" the digit string from countAndSay(n-1), which is then converted into a different digit string.
+To determine how you "say" a digit string, split it into the minimal number of substrings such that each substring contains exactly one unique digit. Then for each substring, say the number of digits, then say the digit. Finally, concatenate every said digit.
+
+For example, the saying and conversion for digit string "3322251":
+
+
+Given a positive integer n, return the nth term of the count-and-say sequence.
+
+ 
+
+Example 1:
+
+Input: n = 1
+Output: "1"
+Explanation: This is the base case.
+
+//出个破题跟谜语一样
+
+Runtime
+5 ms
+Beats
+65.2%
+Memory
+41.7 MB
+Beats
+62.67%
+
+class Solution {
+
+	StringBuilder sb=new StringBuilder();  //需要和string转换
+
+    public String countAndSay(int n) {
+		
+		sb.append(1);
+		recursive(n);
+        return sb.toString();
+
+    }
+
+	public void recursive(int n){
+		
+		if(n>1){   //初始为1.
+			StringBuilder sbtemp=new StringBuilder();
+			for(int i=0;i<sb.length();i++){//溢出了
+				int count=1;
+				while(i+count<sb.length()&&sb.charAt(i+count)==sb.charAt(i)){
+					count++;
+				}
+			
+				sbtemp.append(count);
+				sbtemp.append(sb.charAt(i)); 
+				i=i+count-1;
+
+			}
+			sb=sbtemp;    //sb不能传递吗？  *用方法引用对象的时候不能引用sb，否则相当于新对象
+			recursive( n-1);
+		}
+	}
+}
